@@ -4,6 +4,7 @@
 {% block body %}
   <h1>Gestor de tareas</h1>
   <p>{{ bienvenida }}</p>
+  <p><a href="{{ path('tarea_nueva') }}">+ Nueva tarea</a></p>
 
   <ul>
     {% for tarea in tareas %}

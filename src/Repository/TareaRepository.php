@@ -4,6 +4,8 @@ namespace App\Repository;
 
 class TareaRepository
 {
+    public const ESTADOS = ['pendiente', 'completada'];
+
     private const TAREAS = [
         [
             'id' => 1,

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nueva tarea | Gestor de tareas{% endblock %}
+
+{% block body %}
+    <h1>Nueva tarea</h1>
+
+    {% if errores %}
+        <ul class="errores">
+            {% for error in errores %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form action="{{ path('tarea_crear') }}" method="post">
+        <div>
+            <label for="titulo">Título</label>
+            <input type="text" name="titulo" id="titulo" value="{{ datos.titulo }}">
+        </div>
+
+        <div>
+            <label for="descripcion">Descripción</label>
+            <textarea name="descripcion" id="descripcion">{{ datos.descripcion }}</textarea>
+        </div>
+
+        <div>
+            <label for="estado">Estado</label>
+            <select name="estado" id="estado">
+                {% for estado in estados %}
+                    <option value="{{ estado }}" {% if datos.estado == estado %}selected{% endif %}>
+                        {{ estado|capitalize }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit">Guardar tarea</button>
+    </form>
+
+    <p><a href="{{ path('tarea_listado') }}">Volver al listado</a></p>
+{% endblock %}

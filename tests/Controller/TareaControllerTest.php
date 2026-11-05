@@ -51,4 +51,70 @@ class TareaControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(404);
     }
+
+    public function testFormularioNuevoMuestraLosCampos(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/tareas/nueva');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('form[method="post"]');
+        $this->assertSelectorExists('input[name="titulo"]');
+        $this->assertSelectorExists('textarea[name="descripcion"]');
+        $this->assertSelectorExists('select[name="estado"]');
+    }
+    
+    public function testCrearTareaMuestraConfirmacion(): void
+    {
+        $client = static::createClient();
+        $client->request('POST', '/tareas/nueva', [
+            'titulo' => 'Comprar pan',
+            'descripcion' => 'Ir a la panadería',
+            'estado' => 'pendiente',
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1', 'Tarea recibida');
+        $this->assertSelectorTextContains('body', 'Comprar pan');
+        $this->assertSelectorTextContains('body', 'Pendiente');
+    }
+
+    public function testCrearTareaSinTituloMuestraError(): void
+    {
+        $client = static::createClient();
+        $client->request('POST', '/tareas/nueva', [
+            'titulo' => '   ',
+            'descripcion' => 'Descripción válida',
+            'estado' => 'pendiente',
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('body', 'El título no puede estar vacío');
+    }
+
+    public function testCrearTareaSinDescripcionMuestraError(): void
+    {
+        $client = static::createClient();
+        $client->request('POST', '/tareas/nueva', [
+            'titulo' => 'Tarea válida',
+            'descripcion' => '',
+            'estado' => 'pendiente',
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('body', 'La descripción no puede estar vacía');
+    }
+
+    public function testCrearTareaConEstadoInvalidoMuestraError(): void
+    {
+        $client = static::createClient();
+        $client->request('POST', '/tareas/nueva', [
+            'titulo' => 'Tarea válida',
+            'descripcion' => 'Descripción válida',
+            'estado' => 'inventado',
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('body', 'El estado debe ser Pendiente o Completada');
+    }
 }

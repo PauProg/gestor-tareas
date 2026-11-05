@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tarea recibida | Gestor de tareas{% endblock %}
+
+{% block body %}
+    <h1>Tarea recibida</h1>
+
+    <p>Symfony ha recibido estos datos:</p>
+
+    <dl>
+        <dt>Título</dt>
+        <dd>{{ datos.titulo }}</dd>
+
+        <dt>Descripción</dt>
+        <dd>{{ datos.descripcion }}</dd>
+
+        <dt>Estado</dt>
+        <dd>{{ datos.estado|capitalize }}</dd>
+    </dl>
+
+    <p><em>La tarea no se ha guardado: en esta fase no hay base de datos.</em></p>
+
+    <p><a href="{{ path('tarea_nueva') }}">Crear otra tarea</a></p>
+    <p><a href="{{ path('tarea_listado') }}">Volver al listado</a></p>
+{% endblock %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\TareaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -30,11 +31,61 @@ class TareaController extends AbstractController
         $tarea = $this->tareaRepository->find($id);
 
         if (null === $tarea) {
-            throw $this->createNotFoundException(sprintf('Noe xiste la tarea con id %d.', $id));
+            throw $this->createNotFoundException(sprintf('No existe la tarea con id %d.', $id));
         }
 
         return $this->render('tarea/detalle.html.twig', [
             'tarea' => $tarea,
+        ]);
+    }
+
+    #[Route('/tareas/nueva', name: 'tarea_nueva', methods: ['GET'])]
+    public function nueva(): Response
+    {
+        return $this->render('tarea/nueva.html.twig', [
+            'estados' => TareaRepository::ESTADOS,
+            'datos' => [
+                'titulo' => '',
+                'descripcion' => '',
+                'estado' => 'pendiente',
+            ],
+            'errores' => [],
+        ]);
+    }
+
+    #[Route('/tareas/nueva', name: 'tarea_crear', methods: ['POST'])]
+    public function crear(Request $request): Response
+    {
+        $datos = [
+            'titulo' => trim((string) $request->request->get('titulo', '')),
+            'descripcion' => trim((string) $request->request->get('descripcion', '')),
+            'estado' => trim((string) $request->request->get('estado', '')),
+        ];
+
+        $errores = [];
+
+        if ('' === $datos['titulo']) {
+            $errores[] = 'El título no puede estar vacío.';
+        }
+
+        if (''=== $datos['descripcion']) {
+            $errores[] = 'La descripción no puede estar vacía.';
+        }
+
+        if (!in_array($datos['estado'], TareaRepository::ESTADOS, true)) {
+            $errores[] = 'El estado debe ser Pendiente o Completada.';
+        }
+
+        if ([] !== $errores) {
+            return $this->render('tarea/nueva.html.twig', [
+                'estados' => TareaRepository::ESTADOS,
+                'datos' => $datos,
+                'errores'=> $errores,
+            ]);
+        }
+
+        return $this->render('tarea/confirmacion.html.twig', [
+            'datos'=> $datos,
         ]);
     }
 }
