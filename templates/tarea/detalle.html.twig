@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ tarea.titulo }} | Gestor de tareas{% endblock %}
+
+{% block body %}
+    <h1>{{ tarea.titulo }}</h1>
+
+    <dl>
+        <dt>ID</dt>
+        <dd>{{ tarea.id }}</dd>
+
+        <dt>Descripción</dt>
+        <dd>{{ tarea.descripcion }}</dd>
+
+        <dt>Estado</dt>
+        <dd>{{ tarea.estado|capitalize }}</dd>
+    </dl>
+
+    <p><a href="{{ path('tarea_listado') }}">Volver al listado</a></p>
+{% endblock %}

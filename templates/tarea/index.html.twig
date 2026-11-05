@@ -9,7 +9,9 @@
     {% for tarea in tareas %}
       <li class="tarea">
         <span>#{{ tarea.id }}</span>
-        <strong>{{ tarea.titulo }}</strong>
+        <strong>
+          <a href="{{ path('tarea_detalle', {id: tarea.id}) }}">{{ tarea.titulo }}</a>
+        </strong>
         <p>{{ tarea.descripcion }}</p>
         <span>{{ tarea.estado|capitalize }}</span>
       </li>

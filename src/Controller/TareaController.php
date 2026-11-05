@@ -23,4 +23,18 @@ class TareaController extends AbstractController
             'tareas' => $this->tareaRepository->findAll(),
         ]);
     }
+
+    #[Route('/tareas/{id}', name: 'tarea_detalle', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function detalle(int $id): Response
+    {
+        $tarea = $this->tareaRepository->find($id);
+
+        if (null === $tarea) {
+            throw $this->createNotFoundException(sprintf('Noe xiste la tarea con id %d.', $id));
+        }
+
+        return $this->render('tarea/detalle.html.twig', [
+            'tarea' => $tarea,
+        ]);
+    }
 }
