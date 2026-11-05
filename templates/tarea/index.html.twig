@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tareas | Gestor de tareas{% endblock %}
+{% block body %}
+  <h1>Gestor de tareas</h1>
+  <p>{{ bienvenida }}</p>
+
+  <ul>
+    {% for tarea in tareas %}
+      <li class="tarea">
+        <span>#{{ tarea.id }}</span>
+        <strong>{{ tarea.titulo }}</strong>
+        <p>{{ tarea.descripcion }}</p>
+        <span>{{ tarea.estado|capitalize }}</span>
+      </li>
+    {% else %}
+      <li>No hay tareas todavía.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
