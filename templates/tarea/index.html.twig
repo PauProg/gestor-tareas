@@ -7,6 +7,12 @@
     <p>{{ bienvenida }}</p>
     <p><a class="boton" href="{{ path('tarea_nueva') }}">+ Nueva tarea</a></p>
 
+    <p class="resumen">
+        <strong class="resumen__todas">{{ totales.todas }}</strong> tareas ·
+        <strong class="resumen__pendiente">{{ totales.pendiente }}</strong> pendientes ·
+        <strong class="resumen__completada">{{ totales.completada }}</strong> completadas
+    </p>
+
     <ul class="tareas">
         {% for tarea in tareas %}
             <li class="tarea">

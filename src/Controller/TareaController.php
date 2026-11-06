@@ -22,6 +22,11 @@ class TareaController extends AbstractController
         return $this->render('tarea/index.html.twig', [
             'bienvenida' => $bienvenida,
             'tareas' => $this->tareaRepository->findAll(),
+            'totales' => [
+                'todas' => count($this->tareaRepository->findAll()),
+                'pendiente' => $this->tareaRepository->countByEstado('pendiente'),
+                'completada'=> $this->tareaRepository->countByEstado('completada'),
+            ]
         ]);
     }
 

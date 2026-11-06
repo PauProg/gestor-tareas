@@ -135,4 +135,15 @@ class TareaControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('body', 'El estado debe ser Pendiente o Completada');
     }
+
+    public function testListadoMuestraElResumenPorEstado(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/tareas');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextSame('.resumen__todas', '5');
+        $this->assertSelectorTextSame('.resumen__pendiente', '3');
+        $this->assertSelectorTextSame('.resumen__completada', '2');
+    }
 }

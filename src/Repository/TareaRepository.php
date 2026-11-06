@@ -60,4 +60,12 @@ class TareaRepository
 
         return null;
     }
+
+    public function countByEstado(string $estado): int
+    {
+        return count(array_filter(
+            self::TAREAS,
+            static fn (array $tarea): bool => $estado === $tarea['estado']
+        ));
+    }
 }
