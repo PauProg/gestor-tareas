@@ -1,23 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Tareas | Gestor de tareas{% endblock %}
-{% block body %}
-  <h1>Gestor de tareas</h1>
-  <p>{{ bienvenida }}</p>
-  <p><a href="{{ path('tarea_nueva') }}">+ Nueva tarea</a></p>
 
-  <ul>
-    {% for tarea in tareas %}
-      <li class="tarea">
-        <span>#{{ tarea.id }}</span>
-        <strong>
-          <a href="{{ path('tarea_detalle', {id: tarea.id}) }}">{{ tarea.titulo }}</a>
-        </strong>
-        <p>{{ tarea.descripcion }}</p>
-        <span>{{ tarea.estado|capitalize }}</span>
-      </li>
-    {% else %}
-      <li>No hay tareas todavía.</li>
-    {% endfor %}
-  </ul>
+{% block body %}
+    <h1>Gestor de tareas</h1>
+    <p>{{ bienvenida }}</p>
+    <p><a class="boton" href="{{ path('tarea_nueva') }}">+ Nueva tarea</a></p>
+
+    <ul class="tareas">
+        {% for tarea in tareas %}
+            <li class="tarea">
+                <div class="tarea__cabecera">
+                    <span class="tarea__id">#{{ tarea.id }}</span>
+                    {% include 'tarea/_estado.html.twig' with {estado: tarea.estado} only %}
+                </div>
+
+                <h2 class="tarea__titulo">
+                    <a href="{{ path('tarea_detalle', {id: tarea.id}) }}">{{ tarea.titulo }}</a>
+                </h2>
+
+                <p class="tarea__descripcion">{{ tarea.descripcion }}</p>
+            </li>
+        {% else %}
+            <li class="tarea">No hay tareas todavía.</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

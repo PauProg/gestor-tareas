@@ -13,18 +13,18 @@
         </ul>
     {% endif %}
 
-    <form action="{{ path('tarea_crear') }}" method="post">
-        <div>
+    <form class="formulario" action="{{ path('tarea_crear') }}" method="post">
+        <div class="campo">
             <label for="titulo">Título</label>
             <input type="text" name="titulo" id="titulo" value="{{ datos.titulo }}">
         </div>
 
-        <div>
+        <div class="campo">
             <label for="descripcion">Descripción</label>
             <textarea name="descripcion" id="descripcion">{{ datos.descripcion }}</textarea>
         </div>
 
-        <div>
+        <div class="campo">
             <label for="estado">Estado</label>
             <select name="estado" id="estado">
                 {% for estado in estados %}
@@ -35,7 +35,7 @@
             </select>
         </div>
 
-        <button type="submit">Guardar tarea</button>
+        <button class="boton" type="submit">Guardar tarea</button>
     </form>
 
     <p><a href="{{ path('tarea_listado') }}">Volver al listado</a></p>

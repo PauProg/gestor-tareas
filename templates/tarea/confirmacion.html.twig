@@ -7,7 +7,7 @@
 
     <p>Symfony ha recibido estos datos:</p>
 
-    <dl>
+    <dl class="detalle">
         <dt>Título</dt>
         <dd>{{ datos.titulo }}</dd>
 
@@ -15,11 +15,11 @@
         <dd>{{ datos.descripcion }}</dd>
 
         <dt>Estado</dt>
-        <dd>{{ datos.estado|capitalize }}</dd>
+        <dd>{% include 'tarea/_estado.html.twig' with {estado: datos.estado} only %}</dd>
     </dl>
 
-    <p><em>La tarea no se ha guardado: en esta fase no hay base de datos.</em></p>
+    <p class="nota"><em>La tarea no se ha guardado: en esta fase no hay base de datos.</em></p>
 
-    <p><a href="{{ path('tarea_nueva') }}">Crear otra tarea</a></p>
+    <p><a class="boton" href="{{ path('tarea_nueva') }}">Crear otra tarea</a></p>
     <p><a href="{{ path('tarea_listado') }}">Volver al listado</a></p>
 {% endblock %}

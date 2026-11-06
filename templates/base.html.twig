@@ -4,21 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Gestor de tareas{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    {% endblock %}
     {% block javascripts %}{% endblock %}
 </head>
 <body>
-    <header>
-        <a href="{{ path('tarea_listado') }}">Gestor de tareas</a>
+    <div class="contenedor">
+        {% set ruta = app.request.attributes.get('_route') %}
 
-        <nav>
-            <a href="{{ path('tarea_listado') }}">Tareas</a>
-            <a href="{{ path('tarea_nueva') }}">Nueva tarea</a>
-        </nav>
-    </header>
+        <header class="cabecera">
+            <a class="marca" href="{{ path('tarea_listado') }}">Gestor de tareas</a>
 
-    <main>
-        {% block body %}{% endblock %}
-    </main>
+            <nav class="nav">
+                <a href="{{ path('tarea_listado') }}"
+                   {% if ruta in ['tarea_listado', 'tarea_detalle'] %}class="activo"{% endif %}>Tareas</a>
+                <a href="{{ path('tarea_nueva') }}"
+                   {% if ruta in ['tarea_nueva', 'tarea_crear', 'tarea_confirmacion'] %}class="activo"{% endif %}>Nueva tarea</a>
+            </nav>
+        </header>
+
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+    </div>
 </body>
 </html>

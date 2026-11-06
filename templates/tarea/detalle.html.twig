@@ -5,16 +5,16 @@
 {% block body %}
     <h1>{{ tarea.titulo }}</h1>
 
-    <dl>
+    <dl class="detalle">
         <dt>ID</dt>
-        <dd>{{ tarea.id }}</dd>
+        <dd>#{{ tarea.id }}</dd>
 
         <dt>Descripción</dt>
         <dd>{{ tarea.descripcion }}</dd>
 
         <dt>Estado</dt>
-        <dd>{{ tarea.estado|capitalize }}</dd>
+        <dd>{% include 'tarea/_estado.html.twig' with {estado: tarea.estado} only %}</dd>
     </dl>
 
-    <p><a href="{{ path('tarea_listado') }}">Volver al listado</a></p>
+    <p><a href="{{ path('tarea_listado') }}">← Volver al listado</a></p>
 {% endblock %}

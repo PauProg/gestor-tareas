@@ -26,6 +26,15 @@ class TareaControllerTest extends WebTestCase
         $this->assertSelectorExists('a[href="/tareas/1"]');
     }
 
+    public function testLayoutCargaLaHojaDeEstilos(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/tareas');
+
+        $this->assertSelectorExists('link[rel="stylesheet"][href*="css/app.css"]');
+        $this->assertSelectorExists('nav a.activo[href="/tareas"]');
+    }
+
     public function testDetalleMuestraLaTarea(): void
     {
         $client = static::createClient();
