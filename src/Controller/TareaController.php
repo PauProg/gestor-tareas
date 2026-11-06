@@ -77,6 +77,10 @@ class TareaController extends AbstractController
 
         $errores = [];
 
+        if (!$this->isCsrfTokenValid('crear_tarea', (string) $request->request->get('_token', ''))) {
+            $errores[] = 'La sesión ha caducado. Vuelve a enviar el formulario.';
+        }
+
         if ('' === $datos['titulo']) {
             $errores[] = 'El título no puede estar vacío.';
         }

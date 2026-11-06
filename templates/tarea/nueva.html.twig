@@ -35,6 +35,8 @@
             </select>
         </div>
 
+        <input type="hidden" name="_token" value="{{ csrf_token('crear_tarea') }}">
+
         <button class="boton" type="submit">Guardar tarea</button>
     </form>
 
