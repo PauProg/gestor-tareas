@@ -44,6 +44,17 @@ Para detener el servidor:
 symfony server:stop
 ```
 
+### Configuración local
+
+El proyecto funciona sin configuración extra. Si necesitas un `APP_SECRET`
+propio, guárdalo en `.env.local`, que está ignorado por Git:
+
+```
+APP_SECRET=<cadena aleatoria de 32 caracteres>
+```
+
+Puedes generarla con `php -r "echo bin2hex(random_bytes(16));"`.
+
 Si no tienes Symfony CLI, puedes usar el servidor embebido de PHP:
 
 ```bash
