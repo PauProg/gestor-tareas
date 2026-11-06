@@ -68,4 +68,19 @@ class TareaRepository
             static fn (array $tarea): bool => $estado === $tarea['estado']
         ));
     }
+
+    /**
+     * @return list<array{id: int, titulo: string, descripcion: string, estado: string}>
+     */
+    public function findByEstado(?string $estado = null): array
+    {
+        if (null === $estado) {
+            return self::TAREAS;
+        }
+
+        return array_values(array_filter(
+            self::TAREAS,
+            static fn (array $tarea): bool => $estado === $tarea['estado']
+        ));
+    }
 }

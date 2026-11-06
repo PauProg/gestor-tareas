@@ -61,6 +61,17 @@ class TareaControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(404);
     }
 
+    public function testPagina404Personalizada(): void
+    {
+        // Con debug desactivado Symfony usa templates/bundles/TwigBundle/Exception/error404.html.twig.
+        $client = static::createClient(['debug' => false]);
+        $client->request('GET', '/tareas/999');
+
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertSelectorTextContains('h1', 'Página no encontrada');
+        $this->assertSelectorTextContains('body', 'Volver al listado');
+    }
+
     public function testFormularioNuevoMuestraLosCampos(): void
     {
         $client = static::createClient();
@@ -145,5 +156,37 @@ class TareaControllerTest extends WebTestCase
         $this->assertSelectorTextSame('.resumen__todas', '5');
         $this->assertSelectorTextSame('.resumen__pendiente', '3');
         $this->assertSelectorTextSame('.resumen__completada', '2');
+    }
+
+    public function testFiltroPendienteMuestraSoloLasPendientes(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/tareas?estado=pendiente');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertCount(3, $crawler->filter('li.tarea'));
+        $this->assertSelectorTextNotContains('body', 'Preparar el entorno');
+        $this->assertSelectorExists('.filtros a[href="/tareas?estado=pendiente"].activo');
+    }
+
+    public function testFiltroCompletadaMuestraSoloLasCompletadas(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/tareas?estado=completada');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertCount(2, $crawler->filter('li.tarea'));
+        $this->assertSelectorTextContains('body', 'Preparar el entorno');
+        $this->assertSelectorExists('.filtros a[href="/tareas?estado=completada"].activo');
+    }
+
+    public function testFiltroInvalidoVuelveAMostrarTodas(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/tareas?estado=inventado');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertCount(5, $crawler->filter('li.tarea'));
+        $this->assertSelectorExists('.filtros a[href="/tareas"].activo');
     }
 }

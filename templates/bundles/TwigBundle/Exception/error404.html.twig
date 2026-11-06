@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Página no encontrada | Gestor de tareas{% endblock %}
+
+{% block body %}
+    <h1>Página no encontrada</h1>
+    <p>La tarea o la página que buscas no existe.</p>
+    <p><a class="boton" href="{{ path('tarea_listado') }}">Volver al listado</a></p>
+{% endblock %}

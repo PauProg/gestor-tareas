@@ -18,9 +18,14 @@
 
             <nav class="nav">
                 <a href="{{ path('tarea_listado') }}"
-                   {% if ruta in ['tarea_listado', 'tarea_detalle'] %}class="activo"{% endif %}>Tareas</a>
+                    {% if ruta in ['tarea_listado', 'tarea_detalle'] %}class="activo"{% endif %}>
+                    Tareas
+                </a>
+
                 <a href="{{ path('tarea_nueva') }}"
-                   {% if ruta in ['tarea_nueva', 'tarea_crear', 'tarea_confirmacion'] %}class="activo"{% endif %}>Nueva tarea</a>
+                    {% if ruta in ['tarea_nueva', 'tarea_crear', 'tarea_confirmacion'] %}class="activo"{% endif %}>
+                    Nueva tarea
+                </a>
             </nav>
         </header>
 

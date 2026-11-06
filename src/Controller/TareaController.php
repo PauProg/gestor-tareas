@@ -15,18 +15,26 @@ class TareaController extends AbstractController
     }
 
     #[Route('/tareas', name: 'tarea_listado', methods: ['GET'])]
-    public function listado(): Response
+    public function listado(Request $request): Response
     {
+        $estado = $request->query->getString('estado', 'todas');
+
+        if (!in_array($estado, ['todas', ...TareaRepository::ESTADOS], true)) {
+            $estado = 'todas';
+        }
+
         $bienvenida = 'Bienvenido al gestor de tareas con Symfony, desde aqui puedes consultar y gestionar tus tareas.';
 
         return $this->render('tarea/index.html.twig', [
             'bienvenida' => $bienvenida,
-            'tareas' => $this->tareaRepository->findAll(),
+            'tareas' => $this->tareaRepository->findByEstado('todas' === $estado ? null : $estado),
             'totales' => [
                 'todas' => count($this->tareaRepository->findAll()),
                 'pendiente' => $this->tareaRepository->countByEstado('pendiente'),
-                'completada'=> $this->tareaRepository->countByEstado('completada'),
-            ]
+                'completada' => $this->tareaRepository->countByEstado('completada'),
+            ],
+            'estado' => $estado,
+            'estados' => TareaRepository::ESTADOS,
         ]);
     }
 
