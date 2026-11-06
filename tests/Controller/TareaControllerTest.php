@@ -32,7 +32,7 @@ class TareaControllerTest extends WebTestCase
         $client->request('GET', '/tareas/1');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Preparar el entorno');
+        $this->assertSelectorTextContains('h1', 'Preparar el entorno');
         $this->assertSelectorTextContains('body', 'Completada');
     }
 
@@ -63,7 +63,7 @@ class TareaControllerTest extends WebTestCase
         $this->assertSelectorExists('textarea[name="descripcion"]');
         $this->assertSelectorExists('select[name="estado"]');
     }
-    
+
     public function testCrearTareaMuestraConfirmacion(): void
     {
         $client = static::createClient();
@@ -73,10 +73,19 @@ class TareaControllerTest extends WebTestCase
             'estado' => 'pendiente',
         ]);
 
-        $this->assertResponseIsSuccessful();
+        $this->assertResponseRedirects('/tareas/confirmacion');
+        $client->followRedirect();
         $this->assertSelectorTextContains('h1', 'Tarea recibida');
         $this->assertSelectorTextContains('body', 'Comprar pan');
         $this->assertSelectorTextContains('body', 'Pendiente');
+    }
+
+    public function testConfirmacionSinDatosRedirigeAlFormulario(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/tareas/confirmacion');
+
+        $this->assertResponseRedirects('/tareas/nueva');
     }
 
     public function testCrearTareaSinTituloMuestraError(): void

@@ -68,7 +68,7 @@ class TareaController extends AbstractController
             $errores[] = 'El título no puede estar vacío.';
         }
 
-        if (''=== $datos['descripcion']) {
+        if ('' === $datos['descripcion']) {
             $errores[] = 'La descripción no puede estar vacía.';
         }
 
@@ -80,12 +80,28 @@ class TareaController extends AbstractController
             return $this->render('tarea/nueva.html.twig', [
                 'estados' => TareaRepository::ESTADOS,
                 'datos' => $datos,
-                'errores'=> $errores,
+                'errores' => $errores,
             ]);
         }
 
+        $request->getSession()->set('tarea_creada', $datos);
+
+        return $this->redirectToRoute('tarea_confirmacion');
+    }
+
+    #[Route('/tareas/confirmacion', name: 'tarea_confirmacion', methods: ['GET'])]
+    public function confirmacion(Request $request): Response
+    {
+        $datos = $request->getSession()->get('tarea_creada');
+
+        if (null === $datos) {
+            return $this->redirectToRoute('tarea_nueva');
+        }
+
+        $request->getSession()->remove('tarea_creada');
+
         return $this->render('tarea/confirmacion.html.twig', [
-            'datos'=> $datos,
+            'datos' => $datos,
         ]);
     }
 }
